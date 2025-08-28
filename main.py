@@ -2,13 +2,36 @@ from typing import Optional
 
 from fastapi import FastAPI
 
+from fastapi import FastAPI, HTTPException
+from faker import Faker
+
 app = FastAPI()
+fake = Faker()
+
+# Predefined dict of existing users
+users = {
+    "6734674111": {"date_naissance": "1995-08-25", "sexe": "M"},
+    "5842881428": {"date_naissance": "2000-01-10", "sexe": "F"},
+}
+
+undefined_users = ["2116680748", "6879372406", "1411725973"]
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+@app.get("/personne/{nni}")
+def get_user_by_nni(nni: str):
+    if not (nni.isdigit() and len(nni) == 10):
+        raise HTTPException(status_code=400, detail="nni not exist")
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+    # If exists in dict → return it
+    if nni in users:
+        return {"nni": nni, **users[nni]}
+    
+    if nni in undefined_users:
+        raise HTTPException(status_code=404, detail="nni not exist")
+
+    # Otherwise → generate fake data
+    return {
+        "nni": nni,
+        "date_naissance": fake.date_of_birth(minimum_age=18, maximum_age=80).strftime("%Y-%m-%d"),
+        "genre": fake.random_element(elements=["M", "F"])
+    }

@@ -33,6 +33,6 @@ def get_user_by_nni(nni: str):
     # Otherwise → generate fake data
     return {
         "nni": nni,
-        "date_naissance": fake.date_of_birth(minimum_age=18, maximum_age=80).strftime("%Y-%m-%d"),
+        "date_naissance": fake.date_of_birth(minimum_age=18, maximum_age=80).strftime("%d/%m/%Y"),
         "genre": fake.random_element(elements=["M", "F"])
     }

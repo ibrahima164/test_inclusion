@@ -10,8 +10,9 @@ fake = Faker()
 
 # Predefined dict of existing users
 users = {
-    "6734674111": {"date_naissance": "1995-08-25", "sexe": "M"},
-    "5842881428": {"date_naissance": "2000-01-10", "sexe": "F"},
+   "6734674111": {"date_naissance": "25/08/1995", "sexe": "M"},
+   "5842881428": {"date_naissance": "10/01/2000", "sexe": "F"}
+
 }
 
 undefined_users = ["2116680748", "6879372406", "1411725973"]
